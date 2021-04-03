@@ -40,10 +40,6 @@ kubectl -n $NS port-forward --address localhost,10.1.10.5 $POD_NAME 9090
 
 kubectl -n monitoring get all
 
-# port-forward for prometheus
-# kubectl -n $NS port-forward --address localhost,10.1.10.5 prometheus-server-85b447d9b7-4g76n
-
-
 ######## delete ##########
 # kubectl -n monitoring delete crd --all
 # kubectl delete namespace monitoring --cascade=true
