@@ -1,5 +1,4 @@
 #!/bin/sh
-###########
 NS="monitoring"
 
 get_ns()
@@ -30,14 +29,23 @@ cd ../grafana && \
   --set persistence.accessModes={ReadWriteOnce} \
   --set persistence.size=5Gi --namespace $NS
 
-export POD_NAME=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=grafana " -o jsonpath="{.items[0].metadata.name}")
+# get grafana pod_name
+export GRAFANA=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=grafana" -o jsonpath="{.items[0].metadata.name}")
+
+# get prometheus pod_name
+export PROMETHEUS=$(kubectl get pods --namespace monitoring -l "component=server" -o jsonpath="{.items[0].metadata.name}")
 
 # The Grafana dashboard username is admin and for password execute this CMD
 kubectl get secret --namespace $NS grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
-# port-forward for prometheus: kubectl port-forward 는 프롬프트를 리턴하지 않는다.
-kubectl -n $NS port-forward --address localhost,10.1.10.5 $POD_NAME 9090
+# kubectl port-fotrward는 프롬프트를 리턴하지 않는다.
+# kubectl port-fotfoward => grafana
+kubectl -n $NS port-forward --address localhost,10.1.10.5 $GRAFANA 3000
 
+# kubectl port-forward => prometheus
+kubectl -n $NS port-forward --address localhost,10.1.10.5 $PROMETHEUS 3000
+
+# get all monitoring resource
 kubectl -n monitoring get all
 
 ######## delete ##########
