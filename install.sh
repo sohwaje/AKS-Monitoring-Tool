@@ -35,8 +35,8 @@ export POD_NAME=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/
 # The Grafana dashboard username is admin and for password execute this CMD
 kubectl get secret --namespace $NS grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
-# port-forward for grafana: kubectl port-forward 는 프롬프트를 리턴하지 않는다.
-kubectl -n $NS port-forward --address localhost,10.1.10.5 $POD_NAME 3000
+# port-forward for prometheus: kubectl port-forward 는 프롬프트를 리턴하지 않는다.
+kubectl -n $NS port-forward --address localhost,10.1.10.5 $POD_NAME 9090
 
 kubectl -n monitoring get all
 
@@ -47,5 +47,3 @@ kubectl -n monitoring get all
 ######## delete ##########
 # kubectl -n monitoring delete crd --all
 # kubectl delete namespace monitoring --cascade=true
-#
-# passwd: zLE886B6tqubkIJCKway2ouTvPRjyu5DPEZrjWHy
