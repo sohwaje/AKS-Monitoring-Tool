@@ -19,7 +19,7 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
  az aks get-credentials -n <aks_name> -g <resource_group_name>
  ```
 
- 3. 스크립트를 통해 통합 설치(스크립트 설치 순서는 다음과 같다.)
+ 3. 쉘스크립트를 실행하여 helm 패키지로 설치(스크립트 설치 순서는 다음과 같다.)
   - 네임스페이스 생성 : monitoring
   - prometheus 설치
   - grafana 설치
