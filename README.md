@@ -3,7 +3,11 @@
 - Azure AKS는 관리형 쿠버네티스 서비스이다. Azure는 Azure monitor를 통해 쿠버네티스 모니터링을 제공하지만, 요금이 발생한다. 따라서 이 시도는 비용을 절약하기 위한 것이다. 본 설치 문서는 아래 링크들을 참조하여 작성하였다. 거의 날로 먹은 셈이다. 기여하신 분들께 감사드린다. 잘 쓰겠다.
 
 install : https://github.com/sohwaje/AKS-Monitoring-Tool, https://www.youtube.com/watch?v=XrGN2UvVPv0, https://atouati.com/posts/2019/12/aks-monitoring-with-prometheus/
+
+
 kubectl cheatsheet: https://kubernetes.io/ko/docs/reference/kubectl/cheatsheet/
+
+
 grafana dashboard : https://grafana.com/grafana/dashboards/13770
 
 ##### Step: -
