@@ -4,6 +4,7 @@
 
 install : https://www.youtube.com/watch?v=XrGN2UvVPv0, https://atouati.com/posts/2019/12/aks-monitoring-with-prometheus/, https://github.com/maheshkvis/AKS-Monitoring-Tool
 
+prometheus-alertmanager : https://github.com/vipin-k/Kubernetes-Monitoring-with-Prometheus-, https://gruuuuu.github.io/cloud/monitoring-02/#
 
 kubectl cheatsheet: https://kubernetes.io/ko/docs/reference/kubectl/cheatsheet/
 
@@ -66,7 +67,7 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
           - api_url: ''
             channel: '#smm'
   ```
-  
+
 - helm upgrade
   ```
   helm upgrade prometheus . --namespace monitoring -f values.yaml
