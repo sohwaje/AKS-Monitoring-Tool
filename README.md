@@ -39,3 +39,38 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
 ```
 helm install prometheus . --namespace monitoring --set rbac.create=false
 ```
+
+4. Alert Manager 설정
+- AKS-Monitoring-Tool/prometheus/values.yml 수정
+ ```
+ ## alertmanager ConfigMap entries
+##
+alertmanagerFiles:
+  alertmanager.yml:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: ['job']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: 'slack-notification'
+      routes:
+      - match:
+          alertname: Watchdog
+        receiver: 'slack-notification'
+      - match_re:
+          severity: '^(none|warning|critical)$'
+        receiver: 'slack-notification'
+    receivers:
+      - name: 'slack-notification'
+        slack_configs:
+          - api_url: 'https://hooks.slack.com/services/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'
+            channel: '#smm'
+ ```
+
+- alertmanager 포트포워딩
+ ```
+ export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}")
+ kubectl --namespace monitoring port-forward --address localhost,10.1.10.5 $POD_NAME 9093
+ ```
