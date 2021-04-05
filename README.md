@@ -12,17 +12,17 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
 
 ##### Step: -
 1. git clone을 통해 리포지토리를 다운로드 한다.
- ```
- git clone https://github.com/sohwaje/AKS-Monitoring-Tool.git
- ```
+  ```
+  git clone https://github.com/sohwaje/AKS-Monitoring-Tool.git
+  ```
 
 2. Azure cli를 설정한다.
- ```
- az login
- az account list -o table
- az account set --subscription <subscription ID>
- az aks get-credentials -n <aks_name> -g <resource_group_name>
- ```
+  ```
+  az login
+  az account list -o table
+  az account set --subscription <subscription ID>
+  az aks get-credentials -n <aks_name> -g <resource_group_name>
+  ```
 
 3. 쉘스크립트를 실행하여 helm 패키지로 설치(스크립트 설치 순서는 다음과 같다.)
   - 네임스페이스 생성
@@ -30,21 +30,20 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
   - grafana 설치
   - prometheus portforward
   - grafana portforward(공인 IP가 설정되어 있어 불필요할 수도 있다.)
- ```
- sh install.sh or chmod +x install.sh && ./install.sh
-
- ```
+  ```
+  sh install.sh or chmod +x install.sh && ./install.sh
+  ```
 ***주의***
 - 클러스터가 rbac 즉, 자격증명을 사용할 때 반드시 스크립트에서 아래와 같이 'rbac.create=true'로 변경한다.
-```
-helm install prometheus . --namespace monitoring --set rbac.create=false
-```
+ ```
+ helm install prometheus . --namespace monitoring --set rbac.create=false
+ ```
 
 4. Alert Manager 설정
 - AKS-Monitoring-Tool/prometheus/values.yml 수정
- ```
- ## alertmanager ConfigMap entries
-alertmanagerFiles:
+  ```
+  ## alertmanager ConfigMap entries
+ alertmanagerFiles:
   alertmanager.yml:
     global:
       resolve_timeout: 5m
@@ -66,14 +65,15 @@ alertmanagerFiles:
         slack_configs:
           - api_url: 'https://hooks.slack.com/services/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'
             channel: '#smm'
- ```
+  ```
+  
 - helm upgrade
- ```
- helm upgrade prometheus . --namespace monitoring -f values.yaml
- ```
+  ```
+  helm upgrade prometheus . --namespace monitoring -f values.yaml
+  ```
 
 - alertmanager 포트포워딩
- ```
- export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}")
- kubectl --namespace monitoring port-forward --address localhost,10.1.10.5 $POD_NAME 9093
- ```
+  ```
+  export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace monitoring port-forward --address localhost,10.1.10.5 $POD_NAME 9093
+  ```
