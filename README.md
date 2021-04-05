@@ -67,7 +67,30 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
           - api_url: ''
             channel: '#smm'
   ```
+- rule 설정(라인 )
+  ```
+  - name: caasp.node.rules
+    rules:
+    - alert: NodeIsNotReady
+      expr: kube_node_status_condition{condition="Ready", status="unknown"} == 1
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        description: '{{ $labels.node }} is not ready'
 
+  - name: container memory alert
+    rules:
+    - alert: container memory usage rate is very high( > 5%)
+      expr: sum(container_memory_working_set_bytes{pod!="", name=""})/ sum (kube_node_status_allocatable_memory_bytes) * 100 > 5
+      for: 1m
+      labels:
+        severity: fatal
+      annotations:
+        summary: High Memory Usage on
+        identifier: ""
+        description: " Memory Usage: "
+  ```
 - helm upgrade
   ```
   helm upgrade prometheus . --namespace monitoring -f values.yaml
