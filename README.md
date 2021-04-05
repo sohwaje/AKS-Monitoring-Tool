@@ -11,12 +11,12 @@ kubectl cheatsheet: https://kubernetes.io/ko/docs/reference/kubectl/cheatsheet/
 grafana dashboard : https://grafana.com/grafana/dashboards/13770
 
 ##### Step: -
- 1. git clone을 통해 리포지토리를 다운로드 한다.
+1. git clone을 통해 리포지토리를 다운로드 한다.
  ```
  git clone https://github.com/sohwaje/AKS-Monitoring-Tool.git
  ```
 
- 2. Azure cli를 설정한다.
+2. Azure cli를 설정한다.
  ```
  az login
  az account list -o table
@@ -24,7 +24,7 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
  az aks get-credentials -n <aks_name> -g <resource_group_name>
  ```
 
- 3. 쉘스크립트를 실행하여 helm 패키지로 설치(스크립트 설치 순서는 다음과 같다.)
+3. 쉘스크립트를 실행하여 helm 패키지로 설치(스크립트 설치 순서는 다음과 같다.)
   - 네임스페이스 생성
   - prometheus 설치
   - grafana 설치
@@ -44,7 +44,6 @@ helm install prometheus . --namespace monitoring --set rbac.create=false
 - AKS-Monitoring-Tool/prometheus/values.yml 수정
  ```
  ## alertmanager ConfigMap entries
-##
 alertmanagerFiles:
   alertmanager.yml:
     global:
