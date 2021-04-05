@@ -63,7 +63,7 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
     receivers:
       - name: 'slack-notification'
         slack_configs:
-          - api_url: 'https://hooks.slack.com/services/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'
+          - api_url: ''
             channel: '#smm'
   ```
   
