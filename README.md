@@ -67,6 +67,10 @@ alertmanagerFiles:
           - api_url: 'https://hooks.slack.com/services/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'
             channel: '#smm'
  ```
+- helm upgrade
+ ```
+ helm upgrade prometheus . --namespace monitoring -f values.yaml
+ ```
 
 - alertmanager 포트포워딩
  ```
