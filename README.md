@@ -41,7 +41,7 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
  ```
 --
 # Alert Manager 설정
-- AKS-Monitoring-Tool/prometheus/values.yml 수정
+1. AKS-Monitoring-Tool/prometheus/values.yml 수정
  ```
  ## alertmanager ConfigMap entries
  alertmanagerFiles:
@@ -67,7 +67,7 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
           - api_url: ''
             channel: '#smm'
   ```
-- rule 설정(라인 )
+2. rule 설정(라인 )
   ```
   - name: caasp.node.rules
     rules:
@@ -91,12 +91,12 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
         identifier: ""
         description: " Memory Usage: "
   ```
-- helm upgrade
+3. helm upgrade
   ```
   helm upgrade prometheus . --namespace monitoring -f values.yaml
   ```
 
-- alertmanager 포트포워딩
+4. alertmanager 포트포워딩
   ```
   export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}")
   kubectl --namespace monitoring port-forward --address localhost,10.1.10.5 $POD_NAME 9093
