@@ -92,6 +92,16 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
         summary: High Memory Usage on
         identifier: ""
         description: " Memory Usage: "
+
+  - name: container CPU alert
+    rules:
+    - alert: container CPU usage rate is very high( > 10%)
+      expr: sum (rate (container_cpu_usage_seconds_total{pod!=""}[1m])) / sum (machine_cpu_cores) * 100 > 10
+      for: 1m
+      labels:
+        severity: fatal
+      annotations:
+        summary: High Cpu Usage
   ```
 3. helm upgrade
   ```
