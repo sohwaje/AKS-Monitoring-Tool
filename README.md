@@ -102,6 +102,17 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
         severity: fatal
       annotations:
         summary: High Cpu Usage
+
+  - name: OutOfMemory
+    rules:
+    - alert: OutOfMemory
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Out of memory (instance {{ $labels.instance }})"
+        description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
   ```
 3. helm upgrade
   ```
