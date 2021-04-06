@@ -17,6 +17,8 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
   git clone https://github.com/sohwaje/AKS-Monitoring-Tool.git
   ```
 
+![Alt text](/image/aks-dir.PNG "디렉토리 구조")
+
 2. Azure cli를 설정한다.
   ```
   az login
