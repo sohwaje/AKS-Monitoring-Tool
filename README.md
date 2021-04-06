@@ -39,7 +39,7 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
  ```
  helm install prometheus . --namespace monitoring --set rbac.create=false
  ```
---
+* * *
 # Alert Manager 설정
 1. AKS-Monitoring-Tool/prometheus/values.yml 수정
  ```
