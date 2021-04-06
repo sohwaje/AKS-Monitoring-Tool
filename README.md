@@ -96,6 +96,7 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
   helm upgrade prometheus . --namespace monitoring -f values.yaml
   ```
 
+![Alt text](/image/prometheus_alert.PNG "Prometheus Alert"")
 4. alertmanager 포트포워딩
   ```
   export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}")
