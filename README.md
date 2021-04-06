@@ -67,7 +67,7 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
           - api_url: ''
             channel: '#smm'
   ```
-2. rule 설정(라인 )
+2. rule 설정 예제(라인 )
   ```
   - name: caasp.node.rules
     rules:
