@@ -69,54 +69,25 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
           - api_url: ''
             channel: '#smm'
   ```
-2. rule 설정 예제(라인 )
+2. 커스텀 rule 설정 예제(라인 )
+
   ```
-  - name: caasp.node.rules
-    rules:
-    - alert: NodeIsNotReady
-      expr: kube_node_status_condition{condition="Ready", status="unknown"} == 1
-      for: 1m
-      labels:
-        severity: critical
-      annotations:
-        description: '{{ $labels.node }} is not ready'
+  vi custom-rules.yml
+  ```
 
-  - name: container memory alert
-    rules:
-    - alert: container memory usage rate is very high( > 5%)
-      expr: sum(container_memory_working_set_bytes{pod!="", name=""})/ sum (kube_node_status_allocatable_memory_bytes) * 100 > 5
-      for: 1m
-      labels:
-        severity: fatal
-      annotations:
-        summary: High Memory Usage on
-        identifier: ""
-        description: " Memory Usage: "
-
-  - name: container CPU alert
-    rules:
-    - alert: container CPU usage rate is very high( > 10%)
-      expr: sum (rate (container_cpu_usage_seconds_total{pod!=""}[1m])) / sum (machine_cpu_cores) * 100 > 10
-      for: 1m
-      labels:
-        severity: fatal
-      annotations:
-        summary: High Cpu Usage
-
-  - name: OutOfMemory
-    rules:
-    - alert: OutOfMemory
-      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
-      for: 5m
-      labels:
-        severity: warning
-      annotations:
-        summary: "Out of memory (instance {{ $labels.instance }})"
-        description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+  ```
+  - alert: KubernetesApiClientErrors
+    expr: (sum(rate(rest_client_requests_total{code=~"(4|5).."}[1m])) by (instance, job) / sum(rate(rest_client_requests_total[1m])) by (instance, job)) * 100 > 1
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: Kubernetes API client errors (instance {{ $labels.instance }})
+      description: "Kubernetes API client is experiencing high error rate\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
   ```
 3. helm upgrade
   ```
-  helm upgrade prometheus . --namespace monitoring -f values.yaml
+  helm upgrade prometheus . --namespace monitoring -f values.yaml -f custom-rules.yml
   ```
 
 ![Alt text](/image/prometheus_alert.PNG "Prometheus Alert")
