@@ -90,6 +90,8 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
   helm upgrade prometheus . --namespace monitoring -f values.yaml -f custom-rules.yml
   ```
 
+  - 여러 yml 파일을 동시에 적용할 경우 -f values.yaml -f 1.yaml -f 2.yaml ..... n.yaml 형식으로 적용한다.
+  
 ![Alt text](/image/prometheus_alert.PNG "Prometheus Alert")
 
 4. alertmanager 포트포워딩
