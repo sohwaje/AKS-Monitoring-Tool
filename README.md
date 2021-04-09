@@ -4,7 +4,7 @@
 
 install : https://www.youtube.com/watch?v=XrGN2UvVPv0, https://atouati.com/posts/2019/12/aks-monitoring-with-prometheus/, https://github.com/maheshkvis/AKS-Monitoring-Tool
 
-prometheus-alertmanager : https://github.com/vipin-k/Kubernetes-Monitoring-with-Prometheus-, https://gruuuuu.github.io/cloud/monitoring-02/#
+prometheus-alertmanager : https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/
 
 kubectl cheatsheet: https://kubernetes.io/ko/docs/reference/kubectl/cheatsheet/
 
