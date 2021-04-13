@@ -71,6 +71,31 @@ rule configuration: https://awesome-prometheus-alerts.grep.to/rules#kubernetes
         slack_configs:
           - api_url: ''
             channel: '#smm'
+            send_resolved: true
+            icon_url: https://avatars3.githubusercontent.com/u/3380462
+            title: '{{ if eq .Status "firing" }}:fire:{{ else }}:OK:{{ end }} [{{ .Status | toUpper }}]'
+            text: >-
+              {{- if (eq .Status "firing") -}}
+              {{- printf "*Triggered: %s *\n" .CommonAnnotations.triggered -}}
+              {{- else if (eq .Status "resolved") -}}
+              {{- printf "*Recovered: %s *\n" .CommonAnnotations.resolved -}}
+              {{- else -}}
+              {{- printf "Unknown status repored: %s\n" .CommonAnnotations.triggered -}}
+              {{- end -}}
+
+              {{ range .Alerts -}}
+              *Target:* `{{ .Annotations.identifier }}`
+
+              *Value:* `{{ .Annotations.value }}`
+
+              *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+
+              *Description:* `{{ .Annotations.description }}`
+
+              *Details:*
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                {{ end }}
+              {{ end }}
   ```
 2. 커스텀 rule 설정 예제(라인 )
 
