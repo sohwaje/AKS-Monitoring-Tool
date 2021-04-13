@@ -8,8 +8,11 @@ prometheus-alertmanager : https://grafana.com/blog/2020/02/25/step-by-step-guide
 
 kubectl cheatsheet: https://kubernetes.io/ko/docs/reference/kubectl/cheatsheet/
 
-
 grafana dashboard : https://grafana.com/grafana/dashboards/13770
+
+slack configuration: https://blog.naver.com/alice_k106/221910045964  https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/
+
+rule configuration: https://awesome-prometheus-alerts.grep.to/rules#kubernetes
 
 ##### Step: -
 1. git clone을 통해 리포지토리를 다운로드 한다.
