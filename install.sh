@@ -35,18 +35,18 @@ export GRAFANA=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/n
 # get prometheus pod_name
 export PROMETHEUS=$(kubectl get pods --namespace monitoring -l "component=server" -o jsonpath="{.items[0].metadata.name}")
 
-# The Grafana dashboard username is admin and for password execute this CMD
+# The Grafana dashboard username is admin and for password execute this CMD(그라파나에 접속할 초기 패스워드)
 kubectl get secret --namespace $NS grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
-# kubectl port-fotrward는 프롬프트를 리턴하지 않는다.
-# kubectl port-fotfoward => grafana
-kubectl -n $NS port-forward --address localhost,10.1.10.5 $GRAFANA 3000
+# kubectl port-fotrward는 프롬프트를 리턴하지 않는다.(사용할 때 주석을 제거하고 콘솔에서 실행)
+# port-fotfoward => grafana
+# kubectl -n $NS port-forward --address localhost,10.1.10.5 $GRAFANA 3000
 
-# kubectl port-forward => prometheus
-kubectl -n $NS port-forward --address localhost,10.1.10.5 $PROMETHEUS 3000
+# port-forward => prometheus
+# kubectl -n $NS port-forward --address localhost,10.1.10.5 $PROMETHEUS 3000
 
 # get all monitoring resource
-kubectl -n monitoring get all
+# kubectl -n monitoring get all
 
 ######## delete ##########
 # kubectl -n monitoring delete crd --all
