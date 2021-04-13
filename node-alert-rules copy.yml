@@ -1,0 +1,51 @@
+serverFiles:
+  alerts:
+    Node-rule:
+
+      - alert: Node CPU alert
+        expr: 100 - (avg by(instance, name) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 80
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          value: '{{ $value | printf "%.2f" }}'
+          identifier: "{{ $labels.instance }}"
+          description: "쿠버네티스 노드의 CPU 사용률을 감시하고 알림을 보냅니다"
+          resolved: "CPU 임계치 정상"
+          triggered: "CPU 임계치 초과"
+
+      - alert: HostOutOfMemory
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          value: '{{ $value | printf "%.2f" }}'
+          identifier: "{{ $labels.instance }}"
+          description: "쿠버네티스 노드의 Memory 사용률을 감시하고 알림을 보냅니다"
+          resolved: "Memory 임계치 정상"
+          triggered: "Memory 임계치 초과"
+
+      - alert: HostOutOfDiskSpace
+        expr: (node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 10 and ON (instance, device, mountpoint) node_filesystem_readonly == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          value: '{{ $value | printf "%.2f" }}'
+          identifier: "{{ $labels.instance }}"
+          resolved: "DISK 공간 여유"
+          triggered: "DISK 공간 부족"
+          description: "쿠버네티스 노드의 Disk is almost full (< 10% left)"
+
+      - alert: HostOomKillDetected
+        expr: increase(node_vmstat_oom_kill[1m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          value: '{{ $value | printf "%.2f" }}'
+          identifier: "{{ $labels.instance }}"
+          resolved: "OOM kill이 감지되었습니다."
+          triggered: "OOM kill이 중지되었습니다."
+          description: "쿠버네티스 노드의 OOM kill detected"

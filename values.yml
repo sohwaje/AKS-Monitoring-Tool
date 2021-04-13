@@ -1,0 +1,20 @@
+          text: >-
+            *Target:* {{ .Annotations.identifier }}
+            
+            {{- if (eq .Status "firing") -}}
+            {{- printf "*Triggered: %s (%s)*\n" .CommonAnnotations.triggered .CommonAnnotations.identifier -}}
+            {{- else if (eq .Status "resolved") -}}
+            {{- printf "*Recovered: %s (%s)*\n" .CommonAnnotations.resolved .CommonAnnotations.identifier -}}
+            {{- else -}}
+            {{- printf "Unknown status repored: %s\n" .CommonAnnotations.triggered -}}
+            {{- end -}}
+
+            {{ range .Alerts -}}
+            *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+
+            *Value:* `{{ .Annotations.value }}`
+
+            *Details:*
+              {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+              {{ end }}
+            {{ end }}

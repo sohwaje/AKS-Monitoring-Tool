@@ -1,0 +1,51 @@
+serverFiles:
+  alerts:
+    Docker-containers-rule:
+
+      - alert: 컨테이너 CPU 사용 알림
+        expr: (sum(rate(container_cpu_usage_seconds_total[3m])) BY (instance, name) * 100) > 70
+        for: 10skkk
+        labels:
+          severity: warning
+        annotations:
+          value: '{{ $value | printf "%.2f" }}'
+          identifier: "{{ $labels.instance }}"
+          resolved: "CPU 임계치 정상"
+          triggered: "CPU 임계치 초과"
+          description: "컨테이너의 CPU 사용률을 감시하고 알림을 보냅니다"
+
+      - alert: 컨테이너 메모리 사용 알림
+        expr: (sum(container_memory_working_set_bytes) BY (instance, name) / sum(container_spec_memory_limit_bytes > 0) BY (instance, name) * 100) > 80
+        for: 10s
+        labels:
+          severity: warning
+        annotations:
+          value: '{{ $value | printf "%.2f" }}'
+          identifier: "{{ $labels.instance }}"
+          resolved: "Memory 임계치 정상"
+          triggered: "Memory 임계치 초과"
+          description: "컨테이너의 Memory 사용률을 감시하고 알림을 보냅니다"
+
+      - alert: 컨테이너 down 알림
+        expr: time() - container_last_seen > 60
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          value: '{{ $value | printf "%.2f" }}'
+          identifier: "{{ $labels.instance }}"
+          resolved: "컨테이너가 정상입니다."
+          triggered: "컨테이너가 다운되었습니다.."
+          description: "컨테이너의 up down을 감지합니다."
+
+      - alert: 컨테이너 볼륨 사용 알람
+        expr: (1 - (sum(container_fs_inodes_free) BY (instance) / sum(container_fs_inodes_total) BY (instance))) * 100 > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          value: '{{ $value | printf "%.2f" }}'
+          identifier: "{{ $labels.instance }}"
+          resolved: "컨테이너의 볼륨이 정상입니다."
+          triggered: "컨테이너의 볼륨 공간이 부족합니다."
+          description: "컨테이너의 볼륨 공간을 모니터링합니다."

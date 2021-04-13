@@ -87,7 +87,7 @@ grafana dashboard : https://grafana.com/grafana/dashboards/13770
   ```
 3. helm upgrade
   ```
-  helm upgrade prometheus . --namespace monitoring -f values.yaml -f custom-rules.yml
+ helm upgrade --install prometheus . --namespace monitoring -f values.yaml -f kubernetes-alert-rules.yml -f container-alert-rules.yml -f node-alert-rules.yml 
   ```
 
   - 여러 yml 파일을 동시에 적용할 경우 -f values.yaml -f 1.yaml -f 2.yaml ..... n.yaml 형식으로 적용한다.
